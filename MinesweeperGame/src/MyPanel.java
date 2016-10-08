@@ -1,8 +1,10 @@
 import java.awt.Color;
-import java.awt.Font;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -36,12 +38,7 @@ public class MyPanel extends JPanel {
 		if (TOTAL_ROWS + (new Random()).nextInt(1) < 3) {	//Use of "random" to prevent unwanted Eclipse warning
 			throw new RuntimeException("TOTAL_ROWS must be at least 3!");
 		}
-//		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //Top row
-//			colorArray[x][0] = Color.LIGHT_GRAY;
-//		}
-//		for (int y = 0; y < TOTAL_ROWS; y++) {   //Left column
-//			colorArray[0][y] = Color.LIGHT_GRAY;
-//		}
+
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {   //The rest of the grid
 			for (int y = 0; y < TOTAL_ROWS; y++) {
 				cells[x][y] = Color.WHITE;
@@ -49,9 +46,8 @@ public class MyPanel extends JPanel {
 		}
 		
 		plantMines();
-		
-		
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -93,46 +89,46 @@ public class MyPanel extends JPanel {
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 					
 					amountOfNearMines = 0;
+					
 					mx = x - 1;
 					gx = x + 1;
 					my = y - 1;
 					gy = y + 1;
 					
-					if(mx >= 0 && my >= 0 && cells[mx][my] == Color.PINK){
+					if(mx >= 0 && my >= 0 && cells[mx][my] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(mx >= 0 && cells[mx][y] == Color.PINK){
+					if(mx >= 0 && cells[mx][y] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(mx >= 0 && gy < TOTAL_ROWS && cells[mx][gy] == Color.PINK){
+					if(mx >= 0 && gy < TOTAL_ROWS && cells[mx][gy] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(gy < TOTAL_ROWS && cells[x][gy] == Color.PINK){
+					if(gy < TOTAL_ROWS && cells[x][gy] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && cells[gx][gy] == Color.PINK){
+					if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && cells[gx][gy] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(gx < TOTAL_COLUMNS && cells[gx][y] == Color.PINK){
+					if(gx < TOTAL_COLUMNS && cells[gx][y] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(gx < TOTAL_COLUMNS && my >= 0 && cells[gx][my] == Color.PINK){
+					if(gx < TOTAL_COLUMNS && my >= 0 && cells[gx][my] == Color.BLACK){
 						amountOfNearMines++;
 					}
-					if(my >= 0 && cells[x][my] == Color.PINK){
+					if(my >= 0 && cells[x][my] == Color.BLACK){
 						amountOfNearMines++;
 					}
 					
-					if(amountOfNearMines > 0 && cells[x][y] != Color.PINK){
+					if(amountOfNearMines > 0 && cells[x][y] != Color.BLACK){
 						g.setColor(Color.BLUE);
 						g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
 					}	
-					
 				}
 			}
 		}
 		
-
+		coverGrids(g);
 	}
 	public int getGridX(int x, int y) {
 		Insets myInsets = getInsets();
@@ -196,7 +192,21 @@ public class MyPanel extends JPanel {
 		int xDirection = random.nextInt(TOTAL_COLUMNS);
 		int yDirection = random.nextInt(TOTAL_ROWS);
 		//TODO 
-		cells[xDirection][yDirection] = Color.PINK;
+		cells[xDirection][yDirection] = Color.BLACK;
+	}
+	
+	public void coverGrids(Graphics g){
+		Insets myInsets = getInsets();
+		int x1 = myInsets.left;
+		int y1 = myInsets.top;
+		Rectangle2D.Double[][] grids = new Rectangle2D.Double[TOTAL_COLUMNS][TOTAL_ROWS];
+		for(int x = 0; x < TOTAL_COLUMNS; x++){
+			for(int y = 0; y < TOTAL_ROWS; y++){
+				grids[x][y] = new Rectangle2D.Double(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+				g.setColor(Color.WHITE);
+				g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+			}
+		}
 	}
 	
 	
