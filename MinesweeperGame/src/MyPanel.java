@@ -50,6 +50,7 @@ public class MyPanel extends JPanel {
 		
 		plantMines();
 		
+		
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -81,9 +82,9 @@ public class MyPanel extends JPanel {
 		//g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
 
 		
-		int mx,my,gx,gy;
+		int mx,my,gx,gy; 
 		
-		//Paint cell colors
+		//Paint cell colors and evaluate near bombs near the cell
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS; y++) {
 				if ((x == 0) || (y != TOTAL_ROWS)) {
@@ -91,6 +92,7 @@ public class MyPanel extends JPanel {
 					g.setColor(c);
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 					
+					amountOfNearMines = 0;
 					mx = x - 1;
 					gx = x + 1;
 					my = y - 1;
@@ -121,54 +123,16 @@ public class MyPanel extends JPanel {
 						amountOfNearMines++;
 					}
 					
-					if(amountOfNearMines > 0){
+					if(amountOfNearMines > 0 && cells[x][y] != Color.PINK){
 						g.setColor(Color.BLUE);
 						g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
-						
-					}
+					}	
+					
 				}
 			}
 		}
 		
-//		for(int x = 0; x < TOTAL_COLUMNS; x++){
-//			for(int y = 0; y < TOTAL_ROWS; y++){
-//				mx = x - 1;
-//				gx = x + 1;
-//				my = y - 1;
-//				gy = y + 1;
-//				
-//				if(mx >= 0 && my >= 0 && cells[mx][my] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(mx >= 0 && cells[mx][y] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(mx >= 0 && gy < TOTAL_ROWS && cells[mx][gy] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(gy < TOTAL_ROWS && cells[x][gy] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && cells[gx][gy] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(gx < TOTAL_COLUMNS && cells[gx][y] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(gx < TOTAL_COLUMNS && my >= 0 && cells[gx][my] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				if(my >= 0 && cells[x][my] == Color.PINK){
-//					amountOfNearMines++;
-//				}
-//				
-//				if(amountOfNearMines > 0){
-//					g.setColor(Color.BLUE);
-//					g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
-//					
-//				}
-//			}
-//		}
+
 	}
 	public int getGridX(int x, int y) {
 		Insets myInsets = getInsets();
@@ -233,38 +197,6 @@ public class MyPanel extends JPanel {
 		int yDirection = random.nextInt(TOTAL_ROWS);
 		//TODO 
 		cells[xDirection][yDirection] = Color.PINK;
-		
-	}
-	
-	public void setNumbers(){
-		int mx, my , gx , gy; 
-		for(int x = 0; x < TOTAL_COLUMNS; x++){
-			for(int y = 0; y < TOTAL_ROWS;y++){
-				mx = x - 1;
-				gx = x + 1;
-				my = y - 1;
-				gy = y + 1;
-				
-				if(mx >= 0 && my >= 0 && cells[mx][my] == Color.PINK)
-					amountOfNearMines++;
-				if(mx >= 0 && cells[mx][y] == Color.PINK)
-					amountOfNearMines++;
-				if(mx >= 0 && gy < TOTAL_ROWS && cells[mx][gy] == Color.PINK)
-					amountOfNearMines++;
-				if(gy < TOTAL_ROWS && cells[x][gy] == Color.PINK)
-					amountOfNearMines++;
-				if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && cells[gx][gy] == Color.PINK)
-					amountOfNearMines++;
-				if(gx < TOTAL_COLUMNS && cells[gx][y] == Color.PINK)
-					amountOfNearMines++;
-				if(gx < TOTAL_COLUMNS && my >= 0 && cells[gx][my] == Color.PINK)
-					amountOfNearMines++;
-				if(my >= 0 && cells[x][my] == Color.PINK)
-					amountOfNearMines++;
-				
-			}
-		}
-		
 	}
 	
 	
