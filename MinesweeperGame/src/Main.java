@@ -8,6 +8,7 @@ public class Main {
 		myFrame.setSize(400, 400);
 
 		MyPanel myPanel = new MyPanel();
+		
 		myFrame.add(myPanel);
 
 		MyMouseAdapter myMouseAdapter = new MyMouseAdapter();

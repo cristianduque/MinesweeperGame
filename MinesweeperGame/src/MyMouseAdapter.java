@@ -8,7 +8,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 public class MyMouseAdapter extends MouseAdapter {
-	//private Random generator = new Random();
+	
 	public void mousePressed(MouseEvent e) {
 		switch (e.getButton()) {
 		case 1:		//Left mouse button
@@ -31,6 +31,11 @@ public class MyMouseAdapter extends MouseAdapter {
 			myPanel.y = y;
 			myPanel.mouseDownGridX = myPanel.getGridX(x, y);
 			myPanel.mouseDownGridY = myPanel.getGridY(x, y);
+
+
+			int tileX = x;
+			int tileY = y;
+			myPanel.cells[tileX][tileY] = Color.WHITE;
 			myPanel.repaint();
 			break;
 		case 3:		//Right mouse button
@@ -42,6 +47,7 @@ public class MyMouseAdapter extends MouseAdapter {
 		}
 	}
 	public void mouseReleased(MouseEvent e) {
+		
 		switch (e.getButton()) {
 		case 1:		//Left mouse button
 			Component c = e.getComponent();
@@ -63,6 +69,8 @@ public class MyMouseAdapter extends MouseAdapter {
 			myPanel.y = y;
 			int gridX = myPanel.getGridX(x, y);
 			int gridY = myPanel.getGridY(x, y);
+			
+			
 			if ((myPanel.mouseDownGridX == -1) || (myPanel.mouseDownGridY == -1)) {
 				//Had pressed outside
 				//Do nothing
@@ -83,22 +91,25 @@ public class MyMouseAdapter extends MouseAdapter {
 						//Released the mouse button on the same cell where it was pressed
 						if ((gridX == 0) || (gridY == 0)) {
 							//On the left column and on the top row... do nothing
-							Color newColor = Color.BLACK;
-							
-							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
-							myPanel.repaint();
+//							Color newColor = Color.BLACK;
+//							
+//							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
+//							myPanel.repaint();
 						} 
 						else {
 							//On the grid other than on the left column and on the top row:
-							Color newColor = Color.BLACK;
-							
-							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
-							myPanel.repaint();
+//							Color newColor = Color.BLACK;
+//							
+//							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = newColor;
+//							myPanel.repaint();
 						
 						}
 					}
 				}
 			}
+			int tileX = x/myFrame.getWidth();
+			int tileY = y/myFrame.getWidth();
+			myPanel.cells[tileX][tileY] = Color.WHITE;
 			myPanel.repaint();
 			break;
 		case 3:		//Right mouse button
