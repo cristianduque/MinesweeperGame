@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -24,8 +25,13 @@ public class MyPanel extends JPanel {
 	public int mouseDownGridY = 0;
 	public int amountOfNearMines = 0;
 	
-	private Random random;	
+	private Random random;
+	
+	private BufferedImage image;
+	
 	public Color[][] cells = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
+	public int [][] bombs = new int [TOTAL_COLUMNS][TOTAL_ROWS];
+	public int [][] neighbors = new int[TOTAL_COLUMNS][TOTAL_ROWS];
 	
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		
@@ -46,6 +52,7 @@ public class MyPanel extends JPanel {
 		}
 		
 		plantMines();
+		//coverGrids();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -75,8 +82,7 @@ public class MyPanel extends JPanel {
 		}
 
 		//Draw an additional cell at the bottom left
-		//g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1);
-
+		//g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1)
 		
 		int mx,my,gx,gy; 
 		
@@ -88,47 +94,9 @@ public class MyPanel extends JPanel {
 					g.setColor(c);
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
 					
-					amountOfNearMines = 0;
-					
-					mx = x - 1;
-					gx = x + 1;
-					my = y - 1;
-					gy = y + 1;
-					
-					if(mx >= 0 && my >= 0 && cells[mx][my] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(mx >= 0 && cells[mx][y] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(mx >= 0 && gy < TOTAL_ROWS && cells[mx][gy] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(gy < TOTAL_ROWS && cells[x][gy] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && cells[gx][gy] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(gx < TOTAL_COLUMNS && cells[gx][y] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(gx < TOTAL_COLUMNS && my >= 0 && cells[gx][my] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					if(my >= 0 && cells[x][my] == Color.BLACK){
-						amountOfNearMines++;
-					}
-					
-					if(amountOfNearMines > 0 && cells[x][y] != Color.BLACK){
-						g.setColor(Color.BLUE);
-						g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
-					}	
 				}
 			}
 		}
-		
-		coverGrids(g);
 	}
 	public int getGridX(int x, int y) {
 		Insets myInsets = getInsets();
@@ -192,22 +160,63 @@ public class MyPanel extends JPanel {
 		int xDirection = random.nextInt(TOTAL_COLUMNS);
 		int yDirection = random.nextInt(TOTAL_ROWS);
 		//TODO 
-		cells[xDirection][yDirection] = Color.BLACK;
+		bombs[xDirection][yDirection] = 1;
+		
 	}
 	
-	public void coverGrids(Graphics g){
+	public void setNumbers(Graphics g){
+		int mx, my, gx, gy;
 		Insets myInsets = getInsets();
 		int x1 = myInsets.left;
 		int y1 = myInsets.top;
-		Rectangle2D.Double[][] grids = new Rectangle2D.Double[TOTAL_COLUMNS][TOTAL_ROWS];
-		for(int x = 0; x < TOTAL_COLUMNS; x++){
+		for(int x = 0; x < TOTAL_COLUMNS;x++){
 			for(int y = 0; y < TOTAL_ROWS; y++){
-				grids[x][y] = new Rectangle2D.Double(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
-				g.setColor(Color.WHITE);
-				g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
+				amountOfNearMines = 0;
+				
+				mx = x - 1;
+				gx = x + 1;
+				my = y - 1;
+				gy = y + 1;
+				
+				if(mx >= 0 && my >= 0 && bombs[mx][my] == 1){
+					amountOfNearMines++;
+					neighbors[mx][my] = 2;
+				}
+				if(mx >= 0 && bombs[mx][y] == 1){
+					amountOfNearMines++;
+					neighbors[mx][y] = 2;
+				}
+				if(mx >= 0 && gy < TOTAL_ROWS && bombs[mx][gy] == 1){
+					amountOfNearMines++;
+					neighbors[mx][gy] = 2;
+				}
+				if(gy < TOTAL_ROWS && bombs[x][gy] == 1){
+					amountOfNearMines++;
+					neighbors[x][gy] = 2;
+				}
+				if(gx < TOTAL_COLUMNS && gy < TOTAL_ROWS && bombs[gx][gy] == 1){
+					amountOfNearMines++;
+					neighbors[gx][gy] = 2;
+				}
+				if(gx < TOTAL_COLUMNS && bombs[gx][y] == 1){
+					amountOfNearMines++;
+					neighbors[gx][y] = 2;
+				}
+				if(gx < TOTAL_COLUMNS && my >= 0 && bombs[gx][my] == 1){
+					amountOfNearMines++;
+					neighbors[gx][my] = 2;
+				}
+				if(my >= 0 && bombs[x][my] == 1){
+					amountOfNearMines++;
+					neighbors[x][my] = 2;
+				}
+				
+				if(amountOfNearMines > 0 && bombs[x][y] != 1){
+					g.setColor(Color.BLUE);
+					g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
+					
+				}	
 			}
 		}
 	}
-	
-	
 }
