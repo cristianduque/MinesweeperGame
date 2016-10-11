@@ -83,9 +83,7 @@ public class MyPanel extends JPanel {
 
 		//Draw an additional cell at the bottom left
 		//g.drawRect(x1 + GRID_X, y1 + GRID_Y + ((INNER_CELL_SIZE + 1) * (TOTAL_ROWS)), INNER_CELL_SIZE + 1, INNER_CELL_SIZE + 1)
-		
-		int mx,my,gx,gy; 
-		
+
 		//Paint cell colors and evaluate near bombs near the cell
 		for (int x = 0; x < TOTAL_COLUMNS; x++) {
 			for (int y = 0; y < TOTAL_ROWS; y++) {
@@ -93,10 +91,11 @@ public class MyPanel extends JPanel {
 					Color c = cells[x][y];
 					g.setColor(c);
 					g.fillRect(x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 1, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 1, INNER_CELL_SIZE, INNER_CELL_SIZE);
-					
 				}
 			}
 		}
+		
+		setNumbers(g);
 	}
 	public int getGridX(int x, int y) {
 		Insets myInsets = getInsets();
@@ -212,10 +211,11 @@ public class MyPanel extends JPanel {
 				}
 				
 				if(amountOfNearMines > 0 && bombs[x][y] != 1){
+					//Integer.toString(amountOfNearMines);
 					g.setColor(Color.BLUE);
 					g.drawString("" + amountOfNearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) +12);
-					
-				}	
+						
+				}
 			}
 		}
 	}
