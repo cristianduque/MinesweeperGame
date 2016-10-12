@@ -181,25 +181,6 @@ public class MyPanel extends JPanel{
 				bombs[xDirection][yDirection] = 1;
 			}
 		}
-//		while(miner != AMOUNT_OF_MINES){
-//			for(int i = 0; i < AMOUNT_OF_MINES;i++){
-//				generateMines();
-//			}
-//			for(int i = 0; i < TOTAL_COLUMNS; i++){
-//				for(int j = 0; j < TOTAL_ROWS; j++){
-//					if(bombs[i][j] == 1){
-//						miner++;
-//					}
-//				}
-//			}
-//		}
-	}
-	
-	public void generateMines(){
-		random = new Random();
-		int xDirection = random.nextInt(TOTAL_COLUMNS);
-		int yDirection = random.nextInt(TOTAL_ROWS);
-		bombs[xDirection][yDirection] = 1;
 	}
 	
 	public int setNumbers(int x, int y) {		
