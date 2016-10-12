@@ -174,11 +174,12 @@ public class MyPanel extends JPanel{
 	
 	public void plantMines(){
 		random = new Random();
-		for(int x = 0; x < AMOUNT_OF_MINES; x++){
+		for(int x = 0; x < AMOUNT_OF_MINES; ){
 			int xDirection = random.nextInt(TOTAL_COLUMNS);
 			int yDirection = random.nextInt(TOTAL_ROWS);
 			if(bombs[xDirection][yDirection] != 1){
 				bombs[xDirection][yDirection] = 1;
+				x++;
 			}
 		}
 	}
