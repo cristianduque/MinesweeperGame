@@ -173,19 +173,26 @@ public class MyPanel extends JPanel{
 	}
 	
 	public void plantMines(){
-		for(int i = 0; i < AMOUNT_OF_MINES;i++){
-			generateMines();
-		}
-		int miner = 0;
-		while(miner != AMOUNT_OF_MINES){
-			for(int i = 0; i < TOTAL_COLUMNS; i++){
-				for(int j = 0; j < TOTAL_ROWS; j++){
-					if(bombs[i][j] == 1){
-						miner++;
-					}
-				}
+		random = new Random();
+		for(int x = 0; x < AMOUNT_OF_MINES; x++){
+			int xDirection = random.nextInt(TOTAL_COLUMNS);
+			int yDirection = random.nextInt(TOTAL_ROWS);
+			if(bombs[xDirection][yDirection] != 1){
+				bombs[xDirection][yDirection] = 1;
 			}
 		}
+//		while(miner != AMOUNT_OF_MINES){
+//			for(int i = 0; i < AMOUNT_OF_MINES;i++){
+//				generateMines();
+//			}
+//			for(int i = 0; i < TOTAL_COLUMNS; i++){
+//				for(int j = 0; j < TOTAL_ROWS; j++){
+//					if(bombs[i][j] == 1){
+//						miner++;
+//					}
+//				}
+//			}
+//		}
 	}
 	
 	public void generateMines(){
