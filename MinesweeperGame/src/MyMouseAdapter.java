@@ -26,6 +26,7 @@ public class MyMouseAdapter extends MouseAdapter {
 		int y = e.getY();
 		myPanel.x = x;
 		myPanel.y = y;
+		
 		switch (e.getButton()) {
 		case 1:		//Left mouse button
 
@@ -65,10 +66,14 @@ public class MyMouseAdapter extends MouseAdapter {
 		myPanel.y = y;
 		Color uncoveredGrid = Color.WHITE;
 		Color flag = Color.RED;
+		
 		//TODO cuando se seleccione un cuadro con el valor
+		
 		Color bomb = Color.BLACK;
 		Color coveredGrid = Color.lightGray;
-
+		
+		int mx,my,gx,gy;
+		
 		int gridX = myPanel.getGridX(x, y);
 		int gridY = myPanel.getGridY(x, y);
 		
@@ -93,12 +98,14 @@ public class MyMouseAdapter extends MouseAdapter {
 							//On the left column and on the top row... do nothing
 						} 
 						else {
+							
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = uncoveredGrid;
 							myPanel.repaint();
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.LIGHT_GRAY;
+							
 						}
 						if((myPanel.bombs[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == 1) && 
-								myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != flag){
+							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != flag){
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = bomb;
 							myPanel.repaint();
 							JOptionPane.showMessageDialog(null, "Bomb Clicked!", "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
