@@ -1,10 +1,17 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 
 public class MyMouseAdapter extends MouseAdapter {
 	
@@ -26,7 +33,6 @@ public class MyMouseAdapter extends MouseAdapter {
 		int y = e.getY();
 		myPanel.x = x;
 		myPanel.y = y;
-		
 		switch (e.getButton()) {
 		case 1:		//Left mouse button
 
@@ -66,17 +72,12 @@ public class MyMouseAdapter extends MouseAdapter {
 		myPanel.y = y;
 		Color uncoveredGrid = Color.WHITE;
 		Color flag = Color.RED;
-		
 		//TODO cuando se seleccione un cuadro con el valor
-		
 		Color bomb = Color.BLACK;
 		Color coveredGrid = Color.lightGray;
-		
-		int mx,my,gx,gy;
-		
+
 		int gridX = myPanel.getGridX(x, y);
 		int gridY = myPanel.getGridY(x, y);
-		
 		
 		switch (e.getButton()){
 		case 1:		//Left mouse button
@@ -98,16 +99,22 @@ public class MyMouseAdapter extends MouseAdapter {
 							//On the left column and on the top row... do nothing
 						} 
 						else {
-							
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = uncoveredGrid;
 							myPanel.repaint();
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.LIGHT_GRAY;
-							
 						}
 						if((myPanel.bombs[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == 1) && 
-							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != flag){
-							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = bomb;
-							myPanel.repaint();
+								myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != flag){
+							for (int x5 = 0; x5 < myPanel.getTotalColumns(); x5++){
+								for (int y5 = 0; y5 < myPanel.getTotalRows(); y5++){
+									if(myPanel.bombs[x5][y5] == 1){
+										myPanel.cells[x5][y5] = bomb;
+										myPanel.repaint();
+									}
+								}
+							}
+//							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = bomb;
+//							myPanel.repaint();
 							JOptionPane.showMessageDialog(null, "Bomb Clicked!", "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
 							System.exit(0);
 						}
@@ -153,7 +160,6 @@ public class MyMouseAdapter extends MouseAdapter {
 				
 				}
 			}
-			myPanel.repaint();
 			break;
 		default:    //Some other button (2 = Middle mouse button, etc.)
 			//Do nothing
