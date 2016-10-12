@@ -83,11 +83,40 @@ public class MyPanel extends JPanel{
 					
 					if (cells[x][y].equals(Color.LIGHT_GRAY)) {
 						int nearMines = setNumbers(x, y);
-						if(nearMines != 0){
+						if((nearMines != 0) && (nearMines == 1)){
 							g.setColor(Color.BLUE);
-							g.drawString(nearMines + "" + "", x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 2)){
+							g.setColor(Color.RED);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 3)){
+							g.setColor(Color.GREEN);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 4)){
+							g.setColor(Color.YELLOW);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 5)){
+							g.setColor(Color.ORANGE);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 6)){
+							g.setColor(Color.BLACK);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 7)){
+							g.setColor(Color.PINK);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
+						}
+						if((nearMines != 0) && (nearMines == 8)){
+							g.setColor(Color.MAGENTA);
+							g.drawString("" + nearMines, x1 + GRID_X + (x * (INNER_CELL_SIZE + 1)) + 12, y1 + GRID_Y + (y * (INNER_CELL_SIZE + 1)) + 21);
 						}
 					}
+
 				}
 			}
 		}
@@ -147,7 +176,6 @@ public class MyPanel extends JPanel{
 		for(int i = 0; i < AMOUNT_OF_MINES;i++){
 			generateMines();
 		}
-		
 		int miner = 0;
 		while(miner != AMOUNT_OF_MINES){
 			for(int i = 0; i < TOTAL_COLUMNS; i++){
@@ -157,12 +185,7 @@ public class MyPanel extends JPanel{
 					}
 				}
 			}
-			
-			if(miner != AMOUNT_OF_MINES){
-				plantMines();
-			}
 		}
-		
 	}
 	
 	public void generateMines(){
