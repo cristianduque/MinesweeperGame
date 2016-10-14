@@ -13,7 +13,6 @@ import javax.swing.JOptionPane;
  * @author Rafael Cruz Candelario
  */
  
-
 public class MyMouseAdapter extends MouseAdapter {
 	
 	public void mousePressed(MouseEvent e) {
@@ -52,6 +51,7 @@ public class MyMouseAdapter extends MouseAdapter {
 			break;
 		}
 	}
+	
 	
 	public void mouseReleased(MouseEvent e) {
 		Component c = e.getComponent();

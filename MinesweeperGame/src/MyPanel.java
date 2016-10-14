@@ -167,6 +167,7 @@ public class MyPanel extends JPanel {
 		}
 		return x;
 	}
+	
 	public int getGridY(int x, int y) {
 		Insets myInsets = getInsets();
 		int x1 = myInsets.left;
