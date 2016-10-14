@@ -6,9 +6,15 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/*
+ * This class receives the mouse events when clicking the grids in the game Minesweeper and uses the methods implemented 
+ * of class MyPanel.
+ * @author Cristian G. Duque Gonzalez
+ * @author Rafael Cruz Candelario
+ */
+ 
+
 public class MyMouseAdapter extends MouseAdapter {
-	
-	private int flags = 10;
 	
 	public void mousePressed(MouseEvent e) {
 		Component c = e.getComponent();
@@ -67,7 +73,6 @@ public class MyMouseAdapter extends MouseAdapter {
 		myPanel.y = y;
 		Color uncoveredGrid = Color.WHITE;
 		Color flag = Color.RED;
-		//TODO cuando se seleccione un cuadro con el valor
 		Color bomb = Color.BLACK;
 		Color coveredGrid = Color.lightGray;
 
@@ -135,21 +140,21 @@ public class MyMouseAdapter extends MouseAdapter {
 					//Is releasing outside
 					//Do nothing
 				} else {
-					//Cuando haces click en un grid
+					//Click in the grid
 					if((myPanel.mouseDownGridX == gridX) && (myPanel.mouseDownGridY == gridY)){
-						//Si ese grid es color blanco no hagas nada
+						//White grid with right click
 						if(myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == coveredGrid){
 							//Do nothing
 						}
 						else {  
-							//Si ese grid es color gris entonces poner el flag
+							//Grid gray, incorporate the flag
 							if(myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == uncoveredGrid){
 								myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = flag;
 								myPanel.repaint();
 								
 							}
 							else{
-								//si ese grid tiene un flag entonces puedes quitarla
+								//If grid is a flag, remove it
 								if(myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == flag){
 									myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = uncoveredGrid;
 									myPanel.repaint();

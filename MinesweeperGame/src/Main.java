@@ -1,5 +1,11 @@
 import javax.swing.JFrame;
 
+/* This class is the launcher for the game Minesweeper
+ * 
+ * @author Cristian G. Duque Gonzalez
+ * @author Rafael Cruz Candelario
+ */
+
 public class Main {
 	public static void main(String[] args) {
 		JFrame myFrame = new JFrame("Minesweeper Game");

@@ -4,6 +4,12 @@ import java.awt.Insets;
 import java.util.Random;
 import javax.swing.JPanel;
 
+/* This class create all components of the frame of the game Minesweeper using JPanel
+ * 
+ * @author Cristian G. Duque Gonzalez
+ * @author Rafael Cruz Candelario
+ */
+
 public class MyPanel extends JPanel {
 	private static final long serialVersionUID = 3426940946811133635L;
 	static final int GRID_X = 55;
@@ -121,7 +127,7 @@ public class MyPanel extends JPanel {
 		}
 	}
 	
-	public void cascade(int x, int y){
+	public void cascade(int x, int y){//Recursive method which determines the adjacent grids that not have mines and colors them gray
 		if(setNumbers(x, y) == 0) {
 			for(int i = x - 1; i <= x + 1; i++) {
 				for (int j = y - 1; j <= y + 1; j++) {
@@ -187,7 +193,7 @@ public class MyPanel extends JPanel {
 		return y;
 	}
 	
-	public void plantMines(){
+	public void plantMines(){//Method that serves as the generator for the mines 
 		random = new Random();
 		for(int x = 0; x < AMOUNT_OF_MINES;){
 			int xDirection = random.nextInt(TOTAL_COLUMNS);
@@ -199,7 +205,7 @@ public class MyPanel extends JPanel {
 		}
 	}
 	
-	public int setNumbers(int x, int y) {		
+	public int setNumbers(int x, int y) {//Method for establishing the number of mines are near
 		int amountOfNearMines = 0;
 		for(int i = x-1; i <= x+1; i++) {
 			for(int j = y-1; j <= y+1; j++) {
@@ -214,7 +220,7 @@ public class MyPanel extends JPanel {
 		return amountOfNearMines;
 	}
 	
-	public boolean winGame(){
+	public boolean winGame(){// Method for the winning condition in the game
 		int cellCount=0; 
 		for (int i=0; i<TOTAL_COLUMNS; i++){
 			for(int j=0; j<TOTAL_ROWS; j++){
@@ -227,11 +233,11 @@ public class MyPanel extends JPanel {
 
 	}
 	
-	public int getTotalColumns(){
+	public int getTotalColumns(){// Total columns in the frame of the game
 		return TOTAL_COLUMNS;
 	}
 	
-	public int getTotalRows(){
+	public int getTotalRows(){// Total rows in the frame of the game
 		return TOTAL_ROWS;
 	}
 }
