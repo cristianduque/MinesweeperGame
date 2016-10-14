@@ -1,19 +1,14 @@
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JToggleButton;
-import javax.swing.JToolBar;
 
 public class MyMouseAdapter extends MouseAdapter {
+	
+	private int flags = 10;
 	
 	public void mousePressed(MouseEvent e) {
 		Component c = e.getComponent();
@@ -100,9 +95,18 @@ public class MyMouseAdapter extends MouseAdapter {
 						} 
 						else {
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = uncoveredGrid;
+							myPanel.cascade(myPanel.mouseDownGridX, myPanel.mouseDownGridY);
 							myPanel.repaint();
 							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = Color.LIGHT_GRAY;
+							if(myPanel.winGame()){
+								//Checks if the user have win the came 
+								JOptionPane.showMessageDialog(null, "YOU WIN!", "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
+								System.exit(0);
+							}
 						}
+						
+						
+						
 						if((myPanel.bombs[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == 1) && 
 								myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] != flag){
 							for (int x5 = 0; x5 < myPanel.getTotalColumns(); x5++){
@@ -113,8 +117,6 @@ public class MyMouseAdapter extends MouseAdapter {
 									}
 								}
 							}
-//							myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = bomb;
-//							myPanel.repaint();
 							JOptionPane.showMessageDialog(null, "Bomb Clicked!", "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
 							System.exit(0);
 						}
@@ -143,15 +145,14 @@ public class MyMouseAdapter extends MouseAdapter {
 							//Si ese grid es color gris entonces poner el flag
 							if(myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == uncoveredGrid){
 								myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = flag;
-								myPanel.repaint();	
-
+								myPanel.repaint();
+								
 							}
 							else{
 								//si ese grid tiene un flag entonces puedes quitarla
 								if(myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] == flag){
 									myPanel.cells[myPanel.mouseDownGridX][myPanel.mouseDownGridY] = uncoveredGrid;
 									myPanel.repaint();
-
 								}
 							}
 								

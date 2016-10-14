@@ -4,10 +4,10 @@ import java.awt.Insets;
 import java.util.Random;
 import javax.swing.JPanel;
 
-public class MyPanel extends JPanel{
+public class MyPanel extends JPanel {
 	private static final long serialVersionUID = 3426940946811133635L;
-	static final int GRID_X = 25;
-	static final int GRID_Y = 25;
+	static final int GRID_X = 55;
+	static final int GRID_Y = 55;
 	static final int INNER_CELL_SIZE = 29;
 	private static final int TOTAL_COLUMNS = 9;
 	private static final int TOTAL_ROWS = 9;   //Last row has only one cell
@@ -16,15 +16,12 @@ public class MyPanel extends JPanel{
 	public int y = -1;
 	public int mouseDownGridX = 0;
 	public int mouseDownGridY = 0;
-	public int amountOfNeighbors1;
 	
 	private Random random;
-	MyMouseAdapter myMouse = new MyMouseAdapter();
 	
 	public Color[][] cells = new Color[TOTAL_COLUMNS][TOTAL_ROWS];
 	public int [][] bombs = new int [TOTAL_COLUMNS][TOTAL_ROWS];
 	public int [][] neighbors = new int[TOTAL_COLUMNS][TOTAL_ROWS];
-	public int [][] drawNeighbors = new int[TOTAL_COLUMNS][TOTAL_ROWS];
 	
 	public MyPanel() {   //This is the constructor... this code runs first to initialize
 		
@@ -58,6 +55,8 @@ public class MyPanel extends JPanel{
 		int y2 = getHeight() - myInsets.bottom - 1;
 		int width = x2 - x1;
 		int height = y2 - y1;
+		
+		//menuBar.add(m);
 
 		//Paint the background
 		g.setColor(Color.ORANGE);
@@ -121,6 +120,22 @@ public class MyPanel extends JPanel{
 			}
 		}
 	}
+	
+	public void cascade(int x, int y){
+		if(setNumbers(x, y) == 0) {
+			for(int i = x - 1; i <= x + 1; i++) {
+				for (int j = y - 1; j <= y + 1; j++) {
+					if (i < getTotalColumns() && i >= 0 && j < getTotalRows() && j >= 0) {
+						if(cells[i][j] == Color.WHITE){
+							cells[i][j] = Color.LIGHT_GRAY;
+							cascade(i, j);
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public int getGridX(int x, int y) {
 		Insets myInsets = getInsets();
 		int x1 = myInsets.left;
@@ -174,7 +189,7 @@ public class MyPanel extends JPanel{
 	
 	public void plantMines(){
 		random = new Random();
-		for(int x = 0; x < AMOUNT_OF_MINES; ){
+		for(int x = 0; x < AMOUNT_OF_MINES;){
 			int xDirection = random.nextInt(TOTAL_COLUMNS);
 			int yDirection = random.nextInt(TOTAL_ROWS);
 			if(bombs[xDirection][yDirection] != 1){
@@ -190,6 +205,7 @@ public class MyPanel extends JPanel{
 			for(int j = y-1; j <= y+1; j++) {
 				if(i < TOTAL_COLUMNS && i >= 0 && j < TOTAL_ROWS && j >= 0 ) {
 					if(bombs[i][j] == 1) {
+						neighbors[x][y] = 2;
 						amountOfNearMines++;
 					}
 				}
@@ -198,11 +214,24 @@ public class MyPanel extends JPanel{
 		return amountOfNearMines;
 	}
 	
+	public boolean winGame(){
+		int cellCount=0; 
+		for (int i=0; i<TOTAL_COLUMNS; i++){
+			for(int j=0; j<TOTAL_ROWS; j++){
+				if(cells[i][j]==Color.LIGHT_GRAY){
+					cellCount++;
+				} 
+			}
+		}
+		return (cellCount==(TOTAL_COLUMNS*TOTAL_ROWS - AMOUNT_OF_MINES));
+
+	}
+	
 	public int getTotalColumns(){
-		return this.TOTAL_COLUMNS;
+		return TOTAL_COLUMNS;
 	}
 	
 	public int getTotalRows(){
-		return this.TOTAL_ROWS;
+		return TOTAL_ROWS;
 	}
 }
